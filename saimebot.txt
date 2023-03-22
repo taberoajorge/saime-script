@@ -1,0 +1,39 @@
+import smtplib
+from email.mime.text import MIMEText
+import requests
+import time
+
+sender_email = "tucorreo@gmail.com"
+receiver_email = "elcorreoalquelequieresenviar la notificacion@pm.me"
+app_password = "la contraseña de applicacion que puede generar en gmail"
+
+def check_website_status():
+    url = "https://siic.saime.gob.ve/"
+    try:
+        response = requests.get(url)
+        return response.status_code == 200
+    except requests.exceptions.RequestException:
+        return False
+
+def send_email_notification():
+    message = MIMEText("La página está en línea.", "plain", "utf-8")
+    message["Subject"] = "Notificación: Página en línea"
+    message["From"] = sender_email
+    message["To"] = receiver_email
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(sender_email, app_password)
+            server.sendmail(sender_email, receiver_email, message.as_string())
+            print("Correo electrónico enviado correctamente.")
+    except Exception as e:
+        print(f"Error al enviar el correo electrónico: {e}")
+
+while True:
+    if check_website_status():
+        print("La página está en línea.")
+        send_email_notification()
+        break
+    else:
+        print("La página no está en línea. Reintentando en 1 minuto.")
+        time.sleep(60)
