@@ -3,12 +3,17 @@ from email.mime.text import MIMEText
 import requests
 import time
 
-sender_email = "tucorreo@gmail.com"
-receiver_email = "elcorreoalquelequieresenviar la notificacion@pm.me"
+# aqui puedes usar un correo de gmail el que vas a destinar para enviarte los correos
+sender_email = "tucorreo@gmail.com" 
+
+# aqui vas a configurar elc correo receptor 
+receiver_email = "el correo al que le quieres enviar la notificacion"
+
+# Aqui es la contraseña de aplicacion https://support.google.com/accounts/answer/185833?hl=es 
 app_password = "la contraseña de applicacion que puede generar en gmail"
 
 def check_website_status():
-    url = "https://siic.saime.gob.ve/"
+    url = "https://siic.saime.gob.ve/" # aqui es donde puede haber cualquier url
     try:
         response = requests.get(url)
         return response.status_code == 200
