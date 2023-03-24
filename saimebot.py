@@ -2,6 +2,7 @@ import smtplib
 import requests
 import time
 import json
+import logging
 
 from email.mime.text import MIMEText
 
@@ -19,12 +20,13 @@ def load_config():
         config = json.load(f)
     return config or {}
 
-def check_website_status(url):
+def check_website_status(url, timeout=30):
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=timeout)
         return response.status_code == 200
     except requests.exceptions.RequestException:
         return False
+    exc
 
 def send_email_notification(sender_email,receiver_email,app_password):
     message = MIMEText("La página está en línea.", "plain", "utf-8")
@@ -40,8 +42,13 @@ def send_email_notification(sender_email,receiver_email,app_password):
         print(f"Error al enviar el correo electrónico: {e}")
 
 if __name__ == "__main__":
+    logger = logging.basicConfig(
+        level=logging.DEBUG
+    )
     global_config = load_config()
-    while True:
+    logging.debug(str(global_config))
+    while global_config['url']:
+        logging.debug(f"Intentando url: {global_config['url']}")
         if check_website_status(global_config["url"]):
             print(f"La página {global_config['url']} está en línea.")
             if global_config["sender_email"] is None or global_config["receiver_email"] is None or global_config["app_password"] is None:
