@@ -33,8 +33,9 @@ def send_email_notification(sender_email,receiver_email,app_password):
         print(f"Error al enviar el correo electrónico: {e}")
 
 if __name__ == "__main__":
-    logger = logging.basicConfig(
-        level=logging.INFO
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
     )
     global_config = load_config()
     logging.debug(str(global_config))
@@ -42,15 +43,11 @@ if __name__ == "__main__":
         logging.debug(f"Intentando url: {global_config['url']}")
         if check_website_status(global_config["url"]):
             print(f"La página {global_config['url']} está en línea.")
-            if all([True if condition else False for condition in [global_config["sender_email"],
-                                                                   global_config["receiver_email"],
-                                                                   global_config["app_password"]]]): # añadir condiciones necesarias para mandar email
-                
+            email_config_ready = all([global_config["sender_email"], global_config["receiver_email"], global_config["app_password"]])
+            if not email_config_ready:
                 print("No se puede enviar el correo porque falta configuración. Revise el archivo config.json (ignorando error...)")
             else:
-                send_email_notification(global_config["sender_email"],
-                                        global_config["receiver_email"], 
-                                        global_config["app_password"])
+                send_email_notification(global_config["sender_email"], global_config["receiver_email"], global_config["app_password"])
             break
         else:
             print("La página no está en línea. Reintentando en 1 minuto.")
