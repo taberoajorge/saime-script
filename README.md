@@ -1,3 +1,7 @@
+Advertencias y descargos de responsabilidad: 
+El presente script no es para ser utilizado con fines maliciosos, y que el usuario es responsable de cualquier uso indebido del script.
+
+
 # Verificación del estado de la página web y notificación por correo electrónico
 
 Este script de Python verifica si una página web está en línea y, si lo está, envía una notificación por correo electrónico utilizando la cuenta de Gmail del remitente. El script está escrito en Python 3 y utiliza las bibliotecas smtplib y requests.
