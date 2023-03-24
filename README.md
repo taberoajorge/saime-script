@@ -23,9 +23,9 @@ Este script de Python verifica si una página web está en línea y, si lo está
 
 1. Abre el ``config.json`` en un editor de texto y actualiza las siguientes variables con tus propios valores:
 
-``sender_email`` = "tucorreo@gmail.com"
-``receiver_email`` = "el correo al que le quieres enviar la notificacion"
-``app_password`` = "la contraseña de aplicacion que puede generar en gmail"
+   * ``sender_email`` = "tucorreo@gmail.com"
+   * ``receiver_email`` = "el correo al que le quieres enviar la notificacion"
+   * ``app_password`` = "la contraseña de aplicacion que puede generar en gmail"
 
 
 2. (Opcional) Cambia la variable ``url`` si deseas verificar una página web diferente.
