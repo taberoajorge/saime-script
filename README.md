@@ -13,39 +13,34 @@ Este script de Python verifica si una página web está en línea y, si lo está
    - macOS: Descarga e instala Python 3 desde https://www.python.org/downloads/mac-osx/
    - Linux: La mayoría de las distribuciones de Linux tienen Python 3 preinstalado. Si no es así, consulta la documentación de tu distribución para obtener instrucciones sobre cómo instalar Python 3.
 
-2. Biblioteca requests:
-
-- `pip install requests`
-
-3. Configura la verificación en dos pasos para tu cuenta de Google:
+2. Configura la verificación en dos pasos para tu cuenta de Google:
 - Sigue las instrucciones en https://www.google.com/landing/2step/
 
-4. Establece una contraseña de aplicación para tu cuenta de Google:
+3. Establece una contraseña de aplicación para tu cuenta de Google:
 - Sigue las instrucciones en https://support.google.com/accounts/answer/185833?hl=es
 
-## Configuración
+## <span id="configuracion">Configuración</span>
 
-1. Abre el script en un editor de texto y actualiza las siguientes variables con tus propios valores:
+1. Abre el ``config.json`` en un editor de texto y actualiza las siguientes variables con tus propios valores:
 
-sender_email = "tucorreo@gmail.com"
-receiver_email = "el correo al que le quieres enviar la notificacion"
-app_password = "la contraseña de aplicacion que puede generar en gmail"
+``sender_email`` = "tucorreo@gmail.com"
+``receiver_email`` = "el correo al que le quieres enviar la notificacion"
+``app_password`` = "la contraseña de aplicacion que puede generar en gmail"
 
 
-2. (Opcional) Cambia la URL en la función `check_website_status()` si deseas verificar una página web diferente.
+2. (Opcional) Cambia la variable ``url`` si deseas verificar una página web diferente.
 
 ## Uso
 
-1. Abre una terminal o símbolo del sistema.
+### Por primera vez
 
-2. Navega hasta el directorio donde se encuentra el script.
+1. Añade toda la configuración relevante al ``config.json`` (revisar sección anterior <a href=#configuracion>aquí</a>).
 
-3. Ejecuta el script con el siguiente comando:
+2. haz doble click en el archivo ``preparacion_python.bat`` que hará toda la instalación y preparación automática. Además, hará la ejecución del programa por ti.
 
-- `python script.py`
+### Después de haber ejecutado ``preparacion_python.bat``
 
-
-Reemplaza "script.py" con el nombre del archivo si lo has cambiado.
+1. solo debes hacer doble click en ``ejecucion_programa.bat`` para ejecutar el programa.
 
 El script verificará continuamente el estado de la página web e imprimirá un mensaje en la terminal cada minuto. Cuando la página esté en línea, enviará un correo electrónico de notificación y luego finalizará la ejecución.
 
