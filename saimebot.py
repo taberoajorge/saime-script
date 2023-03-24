@@ -51,7 +51,10 @@ if __name__ == "__main__":
         logging.debug(f"Intentando url: {global_config['url']}")
         if check_website_status(global_config["url"]):
             print(f"La página {global_config['url']} está en línea.")
-            if global_config["sender_email"] is None or global_config["receiver_email"] is None or global_config["app_password"] is None:
+            if all([True if condition else False for condition in [global_config["sender_email"],
+                                                                   global_config["receiver_email"],
+                                                                   global_config["app_password"]]]): # añadir condiciones necesarias para mandar email
+                
                 print("No se puede enviar el correo porque falta configuración. Revise el archivo config.json (ignorando error...)")
             else:
                 send_email_notification(global_config["sender_email"],
