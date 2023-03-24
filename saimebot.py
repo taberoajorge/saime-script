@@ -31,7 +31,8 @@ def check_website_status(url):
     except requests.exceptions.RequestException:
         return False
 
-def send_email_notification(sender_email, receiver_email, app_password):
+
+def send_email_notification(sender_email, receiver_email, app_password, url):
     """
     Envía una notificación por correo electrónico utilizando la dirección de correo electrónico del remitente.
     
@@ -39,8 +40,9 @@ def send_email_notification(sender_email, receiver_email, app_password):
         sender_email (str): La dirección de correo electrónico del remitente.
         receiver_email (str): La dirección de correo electrónico del destinatario.
         app_password (str): La contraseña de la aplicación para la cuenta del remitente.
+        url (str): La URL de la página web que fue verificada.
     """
-    message = MIMEText("La página está en línea.", "plain", "utf-8")
+    message = MIMEText(f"La página está en línea, puedes acceder desde {url}", "plain", "utf-8")
     message["Subject"] = "Notificación: Página en línea"
     message["From"] = sender_email
     message["To"] = receiver_email
@@ -66,7 +68,7 @@ def main():
         if check_website_status(URL):
             print("La página está en línea.")
             # Envía la notificación por correo electrónico
-            send_email_notification(SENDER_EMAIL, RECEIVER_EMAIL, APP_PASSWORD)
+            send_email_notification(SENDER_EMAIL, RECEIVER_EMAIL, APP_PASSWORD, URL)
             # Detiene el bucle
             break
         else:
