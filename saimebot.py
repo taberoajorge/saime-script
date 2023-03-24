@@ -12,8 +12,10 @@ receiver_email = "el correo al que le quieres enviar la notificacion"
 # Aqui es la contraseña de aplicacion https://support.google.com/accounts/answer/185833?hl=es 
 app_password = "la contraseña de applicacion que puede generar en gmail"
 
+# aqui es donde puede haber cualquier url
+url = "https://siic.saime.gob.ve/"
+
 def check_website_status():
-    url = "https://siic.saime.gob.ve/" # aqui es donde puede haber cualquier url
     try:
         response = requests.get(url)
         return response.status_code == 200
@@ -21,7 +23,7 @@ def check_website_status():
         return False
 
 def send_email_notification():
-    message = MIMEText("La página está en línea.", "plain", "utf-8")
+    message = MIMEText(f"La página está en línea, puedes acceder desde {url}", "plain", "utf-8")
     message["Subject"] = "Notificación: Página en línea"
     message["From"] = sender_email
     message["To"] = receiver_email
