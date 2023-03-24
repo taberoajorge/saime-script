@@ -3,24 +3,43 @@ from email.mime.text import MIMEText
 import requests
 import time
 
-# aqui puedes usar un correo de gmail el que vas a destinar para enviarte los correos
-sender_email = "tucorreo@gmail.com" 
+# Configuración del correo
+# SENDER_EMAIL: La dirección de correo electrónico que se utilizará para enviar la notificación
+SENDER_EMAIL = "tucorreo@gmail.com"
+# RECEIVER_EMAIL: La dirección de correo electrónico a la que se enviará la notificación
+RECEIVER_EMAIL = "elcorreoalquelequieresenviarlanotificacion"
+# APP_PASSWORD: La contraseña de la aplicación que se generó en la cuenta de Gmail del remitente
+APP_PASSWORD = "lacontraseñadeaplicacionquepuedesgenerarenGmail"
 
-# aqui vas a configurar elc correo receptor 
-receiver_email = "el correo al que le quieres enviar la notificacion"
+# Configuración del temporizador (en segundos)
+# TIMER_INTERVAL: Intervalo entre intentos de verificación del estado de la página web
+TIMER_INTERVAL = 5 * 60  # 5 minutos
 
-# Aqui es la contraseña de aplicacion https://support.google.com/accounts/answer/185833?hl=es 
-app_password = "la contraseña de applicacion que puede generar en gmail"
+def check_website_status(url):
+    """
+    Verifica el estado de la página web dada por la URL.
+    
+    Args:
+        url (str): La URL de la página web a verificar.
 
-def check_website_status():
-    url = "https://siic.saime.gob.ve/" # aqui es donde puede haber cualquier url
+    Returns:
+        bool: True si la página está en línea (código de estado 200), False en caso contrario.
+    """
     try:
         response = requests.get(url)
         return response.status_code == 200
     except requests.exceptions.RequestException:
         return False
 
-def send_email_notification():
+def send_email_notification(sender_email, receiver_email, app_password):
+    """
+    Envía una notificación por correo electrónico utilizando la dirección de correo electrónico del remitente.
+    
+    Args:
+        sender_email (str): La dirección de correo electrónico del remitente.
+        receiver_email (str): La dirección de correo electrónico del destinatario.
+        app_password (str): La contraseña de la aplicación para la cuenta del remitente.
+    """
     message = MIMEText("La página está en línea.", "plain", "utf-8")
     message["Subject"] = "Notificación: Página en línea"
     message["From"] = sender_email
@@ -34,11 +53,26 @@ def send_email_notification():
     except Exception as e:
         print(f"Error al enviar el correo electrónico: {e}")
 
-while True:
-    if check_website_status():
-        print("La página está en línea.")
-        send_email_notification()
-        break
-    else:
-        print("La página no está en línea. Reintentando en 1 minuto.")
-        time.sleep(60)
+def main():
+    """
+    Verifica continuamente el estado de la página web y envía una notificación por correo electrónico cuando esté en línea.
+    """
+    # La URL de la página web que se desea verificar
+    URL = "https://siic.saime.gob.ve/"
+
+    # Bucle principal que verifica el estado de la página web
+    while True:
+        # Si la página web está en línea
+        if check_website_status(URL):
+            print("La página está en línea.")
+            # Envía la notificación por correo electrónico
+            send_email_notification(SENDER_EMAIL, RECEIVER_EMAIL, APP_PASSWORD)
+            # Detiene el bucle
+            break
+        else:
+            # Si la página web no está en línea, espera TIMER_INTERVAL segundos antes de volver a intentarlo
+            print(f"La página no está en línea. Reintentando en {TIMER_INTERVAL // 60} minutos.")
+            time.sleep(TIMER_INTERVAL)
+
+if __name__ == "__main__":
+    main()
