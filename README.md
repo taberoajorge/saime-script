@@ -61,4 +61,4 @@ El script verificará continuamente el estado de la página web e imprimirá un 
 
 ## Nota importante
 
-Este script utiliza una conexión SMTP segura para enviar correos electrónicos a través de Gmail. Sin embargo, no es recomendable almacenar contraseñas en texto plano en un archivo de código. Asegúrate de proteger tus credenciales adecuadamente y
+Este script utiliza una conexión SMTP segura para enviar correos electrónicos a través de Gmail. Sin embargo, no es recomendable almacenar contraseñas en texto plano en un archivo de código. Asegúrate de proteger tus credenciales adecuadamente y considera utilizar soluciones de almacenamiento seguro, como un administrador de contraseñas o variables de entorno.
