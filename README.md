@@ -36,9 +36,9 @@ Este script de Python verifica si una página web está en línea y, si lo está
 
 1. Abre el script en un editor de texto y actualiza las siguientes variables con tus propios valores:
 
-sender_email = "tucorreo@gmail.com"
-receiver_email = "elcorreoalquelequieresenviarlanotificacion"
-app_password = "lacontraseñadeaplicacionquepuedesgenerarenGmail"
+- sender_email = "tucorreo@gmail.com"
+- receiver_email = "elcorreoalquelequieresenviarlanotificacion"
+- app_password = "lacontraseñadeaplicacionquepuedesgenerarenGmail"
 
 
 2. (Opcional) Cambia la URL en la función `check_website_status()` si deseas verificar una página web diferente.
