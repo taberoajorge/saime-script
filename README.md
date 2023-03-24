@@ -1,4 +1,4 @@
-Advertencias y descargos de responsabilidad: 
+# Advertencias y descargos de responsabilidad: 
 El presente script no es para ser utilizado con fines maliciosos, y que el usuario es responsable de cualquier uso indebido del script.
 
 
