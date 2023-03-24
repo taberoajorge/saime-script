@@ -18,7 +18,8 @@ from email.mime.text import MIMEText
 def load_config():
     with open("./config.json","r") as f:
         config = json.load(f)
-    return config or {}
+        
+    return config or {"url":""}
 
 def check_website_status(url, timeout=30):
     try:
@@ -43,7 +44,7 @@ def send_email_notification(sender_email,receiver_email,app_password):
 
 if __name__ == "__main__":
     logger = logging.basicConfig(
-        level=logging.DEBUG
+        level=logging.INFO
     )
     global_config = load_config()
     logging.debug(str(global_config))
