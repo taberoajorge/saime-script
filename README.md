@@ -1,5 +1,5 @@
-# Advertencias y descargos de responsabilidad: 
-El presente script no es para ser utilizado con fines maliciosos, y que el usuario es responsable de cualquier uso indebido del script.
+# Advertencias y descargos de responsabilidad 
+El presente script no es para ser utilizado con fines maliciosos, y que el usuario es responsable de cualquier uso indebido del script. El script monitorea la disponibilidad de una web y notifica cuando esté en línea. No es un ataque DDoS. Por favor, úsenlo responsablemente. 
 
 
 # Verificación del estado de la página web y notificación por correo electrónico
@@ -13,23 +13,32 @@ Este script de Python verifica si una página web está en línea y, si lo está
    - macOS: Descarga e instala Python 3 desde https://www.python.org/downloads/mac-osx/
    - Linux: La mayoría de las distribuciones de Linux tienen Python 3 preinstalado. Si no es así, consulta la documentación de tu distribución para obtener instrucciones sobre cómo instalar Python 3.
 
-2. Biblioteca requests:
+2. Instalar pip:
+   - Windows: Python 3.4 y versiones posteriores ya incluyen pip. Si necesitas actualizarlo, sigue las instrucciones en https://pip.pypa.io/en/stable/installation/
+   - macOS: Python 3.4 y versiones posteriores ya incluyen pip. Si necesitas actualizarlo, sigue las instrucciones en https://pip.pypa.io/en/stable/installation/
+   - Linux: Consulta la documentación de tu distribución para obtener instrucciones sobre cómo instalar pip.
 
-- `pip install requests`
+3. Instalar bibliotecas requeridas:
 
-3. Configura la verificación en dos pasos para tu cuenta de Google:
+- Ejecuta el siguiente comando en la terminal (después de navegar a la carpeta donde se encuentra el archivo `requirements.txt`):
+    ```
+    pip install -r requirements.txt
+    ```
+
+4. Configura la verificación en dos pasos para tu cuenta de Google:
 - Sigue las instrucciones en https://www.google.com/landing/2step/
 
-4. Establece una contraseña de aplicación para tu cuenta de Google:
+5. Establece una contraseña de aplicación para tu cuenta de Google:
 - Sigue las instrucciones en https://support.google.com/accounts/answer/185833?hl=es
+
 
 ## Configuración
 
 1. Abre el script en un editor de texto y actualiza las siguientes variables con tus propios valores:
 
-sender_email = "tucorreo@gmail.com"
-receiver_email = "el correo al que le quieres enviar la notificacion"
-app_password = "la contraseña de aplicacion que puede generar en gmail"
+- sender_email = "tucorreo@gmail.com"
+- receiver_email = "elcorreoalquelequieresenviarlanotificacion"
+- app_password = "lacontraseñadeaplicacionquepuedesgenerarenGmail"
 
 
 2. (Opcional) Cambia la URL en la función `check_website_status()` si deseas verificar una página web diferente.
@@ -41,6 +50,7 @@ app_password = "la contraseña de aplicacion que puede generar en gmail"
 2. Navega hasta el directorio donde se encuentra el script.
 
 3. Ejecuta el script con el siguiente comando:
+
 
 - `python script.py`
 
