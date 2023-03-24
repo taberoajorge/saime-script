@@ -6,19 +6,10 @@ import logging
 
 from email.mime.text import MIMEText
 
-# aqui puedes usar un correo de gmail el que vas a destinar para enviarte los correos
-#sender_email = "tucorreo@gmail.com" 
-
-# aqui vas a configurar elc correo receptor 
-#receiver_email = "el correo al que le quieres enviar la notificacion"
-
-# Aqui es la contraseña de aplicacion https://support.google.com/accounts/answer/185833?hl=es 
-#app_password = "la contraseña de applicacion que puede generar en gmail"
-
 def load_config():
     with open("./config.json","r") as f:
         config = json.load(f)
-        
+
     return config or {"url":""}
 
 def check_website_status(url, timeout=30):
@@ -27,7 +18,6 @@ def check_website_status(url, timeout=30):
         return response.status_code == 200
     except requests.exceptions.RequestException:
         return False
-    exc
 
 def send_email_notification(sender_email,receiver_email,app_password):
     message = MIMEText("La página está en línea.", "plain", "utf-8")
