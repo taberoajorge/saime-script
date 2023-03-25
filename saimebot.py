@@ -13,14 +13,32 @@ def load_config():
     return config or {"url":""}
 
 def check_website_status(url, timeout=30):
+    """
+    Verifica el estado de la página web dada por la URL.
+    
+    Args:
+        url (str): La URL de la página web a verificar.
+
+    Returns:
+        bool: True si la página está en línea (código de estado 200), False en caso contrario.
+    """
     try:
         response = requests.get(url, timeout=timeout)
         return response.status_code == 200
     except requests.exceptions.RequestException:
         return False
 
-def send_email_notification(sender_email,receiver_email,app_password):
-    message = MIMEText("La página está en línea.", "plain", "utf-8")
+def send_email_notification(sender_email, receiver_email, app_password, url):
+    """
+    Envía una notificación por correo electrónico utilizando la dirección de correo electrónico del remitente.
+    
+    Args:
+        sender_email (str): La dirección de correo electrónico del remitente.
+        receiver_email (str): La dirección de correo electrónico del destinatario.
+        app_password (str): La contraseña de la aplicación para la cuenta del remitente.
+        url (str): La URL de la página web que fue verificada.
+    """
+    message = MIMEText(f"La página está en línea, puedes acceder desde {url}", "plain", "utf-8")
     message["Subject"] = "Notificación: Página en línea"
     message["From"] = sender_email
     message["To"] = receiver_email
@@ -32,13 +50,11 @@ def send_email_notification(sender_email,receiver_email,app_password):
     except Exception as e:
         print(f"Error al enviar el correo electrónico: {e}")
 
-if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
-    global_config = load_config()
-    logging.debug(str(global_config))
+def main(global_config, logging):
+    """
+    Verifica continuamente el estado de la página web y envía una notificación por correo electrónico cuando esté en línea.
+    """
+
     while global_config['url']:
         logging.debug(f"Intentando url: {global_config['url']}")
         if check_website_status(global_config["url"]):
@@ -52,3 +68,12 @@ if __name__ == "__main__":
         else:
             print("La página no está en línea. Reintentando en 1 minuto.")
             time.sleep(60)
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+    global_config = load_config()
+    logging.debug(str(global_config))
+    main(global_config)

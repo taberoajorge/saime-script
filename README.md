@@ -1,5 +1,5 @@
-# Advertencias y descargos de responsabilidad: 
-El presente script no es para ser utilizado con fines maliciosos, y que el usuario es responsable de cualquier uso indebido del script.
+# Advertencias y descargos de responsabilidad 
+El presente script no es para ser utilizado con fines maliciosos, y que el usuario es responsable de cualquier uso indebido del script. El script monitorea la disponibilidad de una web y notifica cuando esté en línea. No es un ataque DDoS. Por favor, úsenlo responsablemente. 
 
 
 # Verificación del estado de la página web y notificación por correo electrónico
