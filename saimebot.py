@@ -57,13 +57,13 @@ def main(global_config, logging):
 
     while global_config['url']:
         logging.debug(f"Intentando url: {global_config['url']}")
-        if check_website_status(global_config["url"]):
+        if check_website_status(global_config["url"], global_config["timeout"]):
             print(f"La página {global_config['url']} está en línea.")
             email_config_ready = all([global_config["sender_email"], global_config["receiver_email"], global_config["app_password"]])
             if not email_config_ready:
                 print("No se puede enviar el correo porque falta configuración. Revise el archivo config.json (ignorando error...)")
             else:
-                send_email_notification(global_config["sender_email"], global_config["receiver_email"], global_config["app_password"])
+                send_email_notification(global_config["sender_email"], global_config["receiver_email"], global_config["app_password"], global_config["url"])
             break
         else:
             print("La página no está en línea. Reintentando en 1 minuto.")
@@ -76,4 +76,4 @@ if __name__ == "__main__":
     )
     global_config = load_config()
     logging.debug(str(global_config))
-    main(global_config)
+    main(global_config, logging)

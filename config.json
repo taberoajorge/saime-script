@@ -2,5 +2,6 @@
     "url":"https://siic.saime.gob.ve/",
     "sender_email":"escribe-tu-email-@gmail.com",
     "receiver_email":"escribe-email-receptor@example.com",
-    "app_password":"escribe-tu-contraseña-aqui"
+    "app_password":"escribe-tu-contraseña-aqui",
+    "timeout":60
 }
