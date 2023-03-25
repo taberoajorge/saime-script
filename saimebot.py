@@ -1,21 +1,18 @@
 import smtplib
-from email.mime.text import MIMEText
 import requests
 import time
+import json
+import logging
 
-# Configuración del correo
-# SENDER_EMAIL: La dirección de correo electrónico que se utilizará para enviar la notificación
-SENDER_EMAIL = "tucorreo@gmail.com"
-# RECEIVER_EMAIL: La dirección de correo electrónico a la que se enviará la notificación
-RECEIVER_EMAIL = "elcorreoalquelequieresenviarlanotificacion"
-# APP_PASSWORD: La contraseña de la aplicación que se generó en la cuenta de Gmail del remitente
-APP_PASSWORD = "lacontraseñadeaplicacionquepuedesgenerarenGmail"
+from email.mime.text import MIMEText
 
-# Configuración del temporizador (en segundos)
-# TIMER_INTERVAL: Intervalo entre intentos de verificación del estado de la página web
-TIMER_INTERVAL = 5 * 60  # 5 minutos
+def load_config():
+    with open("./config.json","r") as f:
+        config = json.load(f)
 
-def check_website_status(url):
+    return config or {"url":""}
+
+def check_website_status(url, timeout=30):
     """
     Verifica el estado de la página web dada por la URL.
     
@@ -26,11 +23,10 @@ def check_website_status(url):
         bool: True si la página está en línea (código de estado 200), False en caso contrario.
     """
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=timeout)
         return response.status_code == 200
     except requests.exceptions.RequestException:
         return False
-
 
 def send_email_notification(sender_email, receiver_email, app_password, url):
     """
@@ -46,7 +42,6 @@ def send_email_notification(sender_email, receiver_email, app_password, url):
     message["Subject"] = "Notificación: Página en línea"
     message["From"] = sender_email
     message["To"] = receiver_email
-
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(sender_email, app_password)
@@ -55,26 +50,30 @@ def send_email_notification(sender_email, receiver_email, app_password, url):
     except Exception as e:
         print(f"Error al enviar el correo electrónico: {e}")
 
-def main():
+def main(global_config, logging):
     """
     Verifica continuamente el estado de la página web y envía una notificación por correo electrónico cuando esté en línea.
     """
-    # La URL de la página web que se desea verificar
-    URL = "https://siic.saime.gob.ve/"
 
-    # Bucle principal que verifica el estado de la página web
-    while True:
-        # Si la página web está en línea
-        if check_website_status(URL):
-            print("La página está en línea.")
-            # Envía la notificación por correo electrónico
-            send_email_notification(SENDER_EMAIL, RECEIVER_EMAIL, APP_PASSWORD, URL)
-            # Detiene el bucle
+    while global_config['url']: # el loop va a ejecutar siempre y cuando la url se haya proporcionado en el config.json
+        logging.debug(f"Intentando url: {global_config['url']}") 
+        if check_website_status(global_config["url"], global_config["timeout"]):
+            print(f"La página {global_config['url']} está en línea.")
+            email_config_ready = all([global_config["sender_email"], global_config["receiver_email"], global_config["app_password"]]) # validar que todos los requerimientos para enviar el email se cumplen
+            if email_config_ready:
+                print("No se puede enviar el correo porque falta configuración. Revise el archivo config.json (ignorando error...)")
+            else:
+                send_email_notification(global_config["sender_email"], global_config["receiver_email"], global_config["app_password"], global_config["url"])
             break
         else:
-            # Si la página web no está en línea, espera TIMER_INTERVAL segundos antes de volver a intentarlo
-            print(f"La página no está en línea. Reintentando en {TIMER_INTERVAL // 60} minutos.")
-            time.sleep(TIMER_INTERVAL)
+            print(f"La página no está en línea. Reintentando en {global_config['wait_time_interval']} segundos.")
+            time.sleep(global_config["wait_time_interval"])
 
 if __name__ == "__main__":
-    main()
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    ) # usar logging para separar los mensajes de desarrollo y producción
+    global_config = load_config() # cargar valores de config.json
+    logging.debug(str(global_config))
+    main(global_config, logging)
