@@ -55,25 +55,25 @@ def main(global_config, logging):
     Verifica continuamente el estado de la página web y envía una notificación por correo electrónico cuando esté en línea.
     """
 
-    while global_config['url']:
-        logging.debug(f"Intentando url: {global_config['url']}")
+    while global_config['url']: # el loop va a ejecutar siempre y cuando la url se haya proporcionado en el config.json
+        logging.debug(f"Intentando url: {global_config['url']}") 
         if check_website_status(global_config["url"], global_config["timeout"]):
             print(f"La página {global_config['url']} está en línea.")
-            email_config_ready = all([global_config["sender_email"], global_config["receiver_email"], global_config["app_password"]])
+            email_config_ready = all([global_config["sender_email"], global_config["receiver_email"], global_config["app_password"]]) # validar que todos los requerimientos para enviar el email se cumplen
             if not email_config_ready:
                 print("No se puede enviar el correo porque falta configuración. Revise el archivo config.json (ignorando error...)")
             else:
                 send_email_notification(global_config["sender_email"], global_config["receiver_email"], global_config["app_password"], global_config["url"])
             break
         else:
-            print("La página no está en línea. Reintentando en 1 minuto.")
-            time.sleep(60)
+            print(f"La página no está en línea. Reintentando en {global_config['wait_time_interval']} segundos.")
+            time.sleep(global_config["wait_time_interval"])
 
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
-    )
-    global_config = load_config()
+    ) # usar logging para separar los mensajes de desarrollo y producción
+    global_config = load_config() # cargar valores de config.json
     logging.debug(str(global_config))
     main(global_config, logging)
