@@ -60,7 +60,7 @@ def main(global_config, logging):
         if check_website_status(global_config["url"], global_config["timeout"]):
             print(f"La página {global_config['url']} está en línea.")
             email_config_ready = all([global_config["sender_email"], global_config["receiver_email"], global_config["app_password"]]) # validar que todos los requerimientos para enviar el email se cumplen
-            if not email_config_ready:
+            if email_config_ready:
                 print("No se puede enviar el correo porque falta configuración. Revise el archivo config.json (ignorando error...)")
             else:
                 send_email_notification(global_config["sender_email"], global_config["receiver_email"], global_config["app_password"], global_config["url"])
