@@ -52,7 +52,7 @@ Este script de Python verifica si una página web está en línea y, si lo está
 3. Ejecuta el script con el siguiente comando:
 
 
-- `python script.py`
+- `python saimebot.py`
 
 
 Reemplaza "script.py" con el nombre del archivo si lo has cambiado.
